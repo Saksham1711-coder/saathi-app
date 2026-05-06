@@ -3,7 +3,6 @@ import pyttsx3
 import requests
 
 engine = pyttsx3.init()
-engine.setProperty("voice", "english")
 
 def speak(text):
     print("Assistant:", text)
@@ -12,25 +11,32 @@ def speak(text):
 
 def listen():
     r = sr.Recognizer()
+
     with sr.Microphone() as source:
-        print("Listening...")
+        r.adjust_for_ambient_noise(source)
         audio = r.listen(source)
 
     try:
         text = r.recognize_google(audio)
         print("You:", text)
-        return text
+        return text.lower()
     except:
         return ""
+
+print("Say 'sathi' to activate")
 
 while True:
     text = listen()
 
-    if text:
-        res = requests.post(
-            "http://127.0.0.1:5000/predict",
-            json={"text": text}
-        )
+    if "sathi" in text:
+        speak("Yes, I am listening")
 
-        data = res.json()
-        speak(data["result"])
+        command = listen()
+
+        if command:
+            res = requests.post(
+                "http://127.0.0.1:5000/predict",
+                json={"text": command}
+            )
+
+            speak(res.json()["result"])
