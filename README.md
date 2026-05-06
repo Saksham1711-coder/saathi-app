@@ -34,5 +34,5 @@ This project uses the UCI Heart Disease dataset.
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/saathi-app.git
+git clone https://github.com/Saksham1711-coder/saathi-app
 cd saathi-app
