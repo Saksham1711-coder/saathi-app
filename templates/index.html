@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SAATHI- AI Heart Assistant</title>
+</head>
+<body>
+
+<h1>❤️ AI Heart Disease Assistant</h1>
+
+<input type="text" id="input" placeholder="Describe symptoms...">
+<button onclick="send()">Analyze</button>
+
+<p id="result"></p>
+
+<script>
+function send() {
+    let text = document.getElementById("input").value;
+
+    fetch("/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({text: text})
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText =
+            "Risk: " + data.risk + "\n" + data.result;
+    });
+}
+</script>
+
+</body>
+</html>
